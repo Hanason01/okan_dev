@@ -1,0 +1,8 @@
+Started GET "/" for 192.168.65.1 at 2024-05-28 18:46:36 +0900
+Cannot render console from 192.168.65.1! Allowed networks: 127.0.0.0/127.255.255.255, ::1
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /usr/local/bundle/gems/railties-7.0.8.3/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /usr/local/bundle/gems/railties-7.0.8.3/lib/rails/templates/rails/welcome/index.html.erb (Duration: 1.9ms | Allocations: 625)
+Completed 200 OK in 26ms (Views: 7.6ms | ActiveRecord: 0.0ms | Allocations: 7251)
+
+
