@@ -15,7 +15,7 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - .:/app
+      - ./okan_dev:/okan_dev
       - bundle_data:/usr/local/bundle:cached
       - node_modules:/app/node_modules
     environment:
