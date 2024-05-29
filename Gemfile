@@ -1,4 +1,6 @@
 source "https://rubygems.org"
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+
 
 ruby "3.3.0"
 
@@ -40,6 +42,9 @@ gem 'draper', '4.0.2'
 #Bulid pry-byebug[https://github.com/deivid-rodriguez/pry-byebug]
 gem 'pry-byebug'
 
+#for postgresql
+gem 'pg'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
@@ -61,6 +66,14 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
+  gem 'pry-byebug'
+  gem "faker"
+  gem "factory_bot_rails"
+  gem "rubocop"
+  gem "rubocop-rails"
+  gem "rubocop-checkstyle_formatter"
+  gem "rspec-rails"
+  gem "rspec_junit_formatter"
 end
 
 group :development do
@@ -78,4 +91,5 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem "webdrivers"
 end
