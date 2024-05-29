@@ -4,7 +4,9 @@ services:
     platform: linux/amd64
     environment:
       TZ: Asia/Tokyo
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
+      POSTGRES_DB: okan_dev_development
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
@@ -21,6 +23,9 @@ services:
     environment:
       TZ: Asia/Tokyo
       PORT: 3000
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: password
+      DATABASE_HOST: db
     ports:
       - "3000:3000"
     depends_on:
