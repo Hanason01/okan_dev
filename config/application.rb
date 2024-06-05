@@ -29,5 +29,7 @@ module OkanDev
       g.test_framework :false
       g.skip_routes :true
     end
+
+    # config.action_dispatch.default_headers.delete('Turbo-Drive')
   end
 end

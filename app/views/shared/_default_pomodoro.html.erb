@@ -1,0 +1,18 @@
+<div id = "pomodoros" data-pomodoros = <%= default_pomodoro.to_json(include: :user) %>>
+
+<% if logged_in? %>
+  <div id = 'non_pomodoro_message'>まだあなたのポモドーロがありません</div>
+<% end %>
+
+  <div class = "タイトルとセッション時間">
+    <h2><%= default_pomodoro.set_title %></h2>
+    <p><%= default_pomodoro.minutes %>分 X <%= default_pomodoro.total_sets %>セッション</p>
+  </div>
+  <div class = "タイマー本体">
+    <div id = "timer" ><%= default_pomodoro.minutes %>:00</div>
+  </div>
+  <div class = "ボタン">
+    <button id = "startButton">スタート</button>
+    <button id = "resetButton">離席する</button>
+  </div>
+</div>
