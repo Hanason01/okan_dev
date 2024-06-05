@@ -1,0 +1,12 @@
+<div class = "全体">
+
+  <div class = "タイトル">
+  <h1>ポモドーロ</h1>
+  </div>
+
+<% if @pomodoro_settings %>
+  <%= render 'shared/user_pomodoro', pomodoro_settings: @pomodoro_settings %>
+<% else %>
+  <%= render 'shared/default_pomodoro', default_pomodoro: @default_pomodoro %>
+<% end %>
+</div>
