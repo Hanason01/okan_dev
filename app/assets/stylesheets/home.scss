@@ -1,0 +1,364 @@
+/* 共通スタイル */
+
+.setting-section {
+  padding: 1rem;
+  border-bottom: 0.25rem solid rgba(120, 117, 117, 0.5);
+}
+
+.nothing {
+  display: flex; //子要素の配置を決めたい
+  flex-direction: column; //子要素を配置方向
+  align-items: center; //中のアイテムを中央揃え
+  font-size: 1.8rem;
+  color: darkred;
+  margin-top: 1.0rem;
+}
+
+#initialMessage {
+  text-align: center;
+  font-size: 1.8rem;
+  color: darkred;
+}
+
+#pomodoroSelectButton {
+  margin-left: 3rem;
+  font-size: 1.5rem;
+  border-radius: 0.5rem;
+}
+
+#pomodoroSelectMenu, #pomodoroSelectSubmit {
+  margin-left: 3rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+}
+
+#breakReasonTemplateSelectButton {
+  margin: 1rem 0 0 3rem;
+  font-size: 1.5rem;
+  border-radius: 0.5rem;
+}
+
+#breakReasonTemplateSelectMenu, #breakReasonTemplateSelectSubmit {
+  margin-left: 3rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+}
+
+.pomodoro-timer {
+  display: flex;
+  flex-direction: column;
+  margin: 3rem 10rem 6rem 10rem;
+  padding: 2rem;
+  align-items: center;
+  border: 1rem double rgba(75, 69, 69, 0.5);
+  border-radius: 8rem;
+  background-color: rgba(238, 237, 237, 0.5);
+  position: relative; /* 必要に応じて、子要素の位置を相対的に設定します */
+
+  #pomodoroStatus {
+    font-size: 2.5rem;
+    color: rgba(75, 69, 69, 0.5);
+    position: absolute; /* 親要素の位置を基準に絶対位置を設定します */
+    top: 1rem; /* 上から0px */
+    left: 2rem; /* 左から0px */
+    margin: 0.5rem; /* 必要に応じて余白を追加します */
+  }
+
+  .pomodoro-title-session {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: 2.0rem;
+
+    #pomodoroSession {
+      margin-bottom: 0rem;
+    }
+
+    #pomodoroTitle {
+      margin-top: 0rem;
+    }
+
+    .pomodoro-sets {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .pomodoro-set {
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      background-color: #fff; /* 白丸 */
+      border: 1px solid #000; /* 黒い枠線 */
+      margin: 0 0.5rem;
+    }
+
+    .pomodoro-set.completed {
+      background-color: rgb(238, 56, 56); /* 黒丸 */
+    }
+  }
+
+  .timer-body {
+    margin-bottom: 3rem;
+
+    #timer {
+      font-size: 10rem;
+    }
+  }
+
+  .timer-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .reset-buttons-container {
+      display: flex;
+      justify-content: center; /* 横方向の中央揃え */
+      align-items: center; /* 縦方向の中央揃え */
+      flex-wrap: wrap; /* 必要に応じて複数行に折り返す */
+      width: 100%; /* 親要素の幅に合わせる */
+    }
+  }
+
+  button {
+    font-size: 2rem;
+    margin: 0 0.5rem 1.5rem 0.5rem;
+    background-color: rgb(236, 193, 193);
+    border-radius: 0.5rem;
+
+    &:hover {
+      background-color: rgb(178, 146, 146);
+    }
+  }
+}
+
+#okan-reprimand-popup {
+  position: fixed; //スクロールしても要素を固定
+  top: 50%; //要素の上両端をビューポート高さの50%に指定
+  left: 50%; //要素の左端をビューポート幅の50%に指定
+  transform: translate(-50%, -50%); //topとleftと合わせて完全中央配置
+  background: white;
+  padding: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4rem;
+  z-index: 1000; //要素のスタッキング順序の設定
+
+  .popup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    #okanImage {
+      margin: 2rem;
+      width: 100%; // 画像の幅を親要素に合わせる
+      height: auto; // 画像の高さを自動調整
+      max-width: 300px; // 画像の最大幅を設定
+    }
+
+    #reprimandText {
+      font-size: 1.5rem; //1.5em 20文字 1.25rem 24文字
+      color: darkred;
+    }
+
+    #resetPomodoroButton {
+      font-size: 2rem;
+      border-radius: 0.5rem;
+    }
+  }
+}
+
+/* メディアクエリを使用してレスポンシブデザインを実装 */
+
+/* スマートフォンサイズ（600px以下） */
+@media (max-width: 600px) {
+  .setting-section {
+    padding: 0.5rem;
+  }
+
+  .nothing {
+    font-size: 0.9rem;
+  }
+
+  #initialMessage {
+    font-size: 1.2rem;
+  }
+
+  #pomodoroSelectButton, #breakReasonTemplateSelectButton {
+    margin-left: 1rem;
+    font-size: 1.2rem;
+  }
+
+  #pomodoroSelectMenu, #pomodoroSelectSubmit, #breakReasonTemplateSelectMenu, #breakReasonTemplateSelectSubmit {
+    margin-left: 1rem;
+    font-size: 0.8rem;
+  }
+
+  .pomodoro-timer {
+    margin: 3rem 2rem;
+    padding: 1rem;
+    border-radius: 4rem;
+
+    #pomodoroStatus {
+      font-size: 1.5rem;
+      top: 1rem; /* 上から0px */
+      left: 0.7rem; /* 左から0px */
+    }
+
+    .pomodoro-title-session {
+      font-size: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .timer-body #timer {
+      font-size: 4.5rem;
+    }
+
+    button {
+      font-size: 1.5rem;
+      margin: 0.2rem;
+    }
+  }
+
+  #okan-reprimand-popup {
+    width: 80vw; // ビューポートの幅の90%
+    padding: 1rem;
+    border-radius: 2rem;
+
+    #reprimandText {
+      font-size: 0.8rem; // スマートフォンサイズのフォントサイズ
+    }
+
+    #resetPomodoroButton {
+      font-size: 1.2rem; // スマートフォンサイズのフォントサイズ
+    }
+  }
+}
+
+
+/* タブレットサイズ（601pxから900px） */
+@media (min-width: 601px) and (max-width: 900px) {
+  .setting-section {
+    padding: 0.75rem;
+  }
+
+  .nothing {
+    font-size: 1.5rem;
+  }
+
+  #initialMessage {
+    font-size: 1.5rem;
+  }
+
+  #pomodoroSelectButton, #breakReasonTemplateSelectButton {
+    margin-left: 2rem;
+    font-size: 1.3rem;
+  }
+
+  #pomodoroSelectMenu, #pomodoroSelectSubmit, #breakReasonTemplateSelectMenu, #breakReasonTemplateSelectSubmit {
+    margin-left: 2rem;
+    font-size: 0.9rem;
+  }
+
+  .pomodoro-timer {
+    margin: 4rem 5rem;
+    padding: 1.5rem;
+    border-radius: 6rem;
+
+    #pomodoroStatus {
+      font-size: 2.2rem;
+    }
+
+    .pomodoro-title-session {
+      font-size: 1.3rem;
+      margin-top: 1.5rem;
+    }
+
+    .timer-body #timer {
+      font-size: 7rem;
+    }
+
+    button {
+      font-size: 1.7rem;
+      margin: 0.3rem;
+    }
+  }
+
+  #okan-reprimand-popup {
+    #okan-reprimand-popup {
+      width: 80vw; // ビューポートの幅の80%
+      padding: 1.25rem;
+      border-radius: 3rem;
+
+      #reprimandText {
+        font-size: 1.3rem;
+      }
+
+      #resetPomodoroButton {
+        font-size: 1.7rem;
+      }
+    }
+  }
+}
+
+/* デスクトップサイズ（901px以上） */
+@media (min-width: 901px) {
+  .setting-section {
+    padding: 1rem;
+  }
+
+  .nothing {
+    font-size: 1.8rem;
+  }
+
+  #initialMessage {
+    font-size: 1.8rem;
+  }
+
+  #pomodoroSelectButton, #breakReasonTemplateSelectButton {
+    margin-left: 3rem;
+    font-size: 1.5rem;
+  }
+
+  #pomodoroSelectMenu, #pomodoroSelectSubmit, #breakReasonTemplateSelectMenu, #breakReasonTemplateSelectSubmit {
+    margin-left: 3rem;
+    font-size: 1rem;
+  }
+
+  .pomodoro-timer {
+    margin: 3rem 10rem;
+    padding: 2rem;
+    border-radius: 8rem;
+
+    #pomodoroStatus {
+      font-size: 2.5rem;
+    }
+
+    .pomodoro-title-session {
+      font-size: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .timer-body #timer {
+      font-size: 10rem;
+    }
+
+    button {
+      font-size: 2rem;
+      margin: 0 0.5rem 1.5rem 0.5rem;
+    }
+  }
+
+  #okan-reprimand-popup {
+    width: 60vw; // ビューポートの幅の60%
+    padding: 1.5rem;
+    border-radius: 4rem;
+
+    #reprimandText {
+      font-size: 1.5rem;
+    }
+
+    #resetPomodoroButton {
+      font-size: 2rem;
+    }
+  }
+}

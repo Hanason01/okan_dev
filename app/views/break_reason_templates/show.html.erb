@@ -1,0 +1,22 @@
+<% content_for(:title, @break_reason_template.template_name)%>
+<div class="container">
+  <div class="template-show-form">
+    <h1 class="page_title">詳細画面</h1>
+    <ul class="show-ul">
+      <li class="show-li">
+        テンプレート名：<%= @break_reason_template.template_name %>
+        </li>
+      <% @break_reason_template.break_reasons.each do |break_reason| %>
+      <li class="show-li">離席理由：<%= break_reason.reason %></li>
+      <% end %>
+    </ul>
+    <ul class="btn-ul">
+      <li class="show-btn">
+      <%= link_to image_tag('edit_icon.png', id: "button-edit-#{@break_reason_template.id}"), edit_break_reason_template_path(@break_reason_template), data: { turbo: false } %>
+      </li>
+      <li class="show-btn">
+      <%= link_to link_to image_tag('delete_icon.png', id: "button-delete-#{@break_reason_template.id}"),break_reason_template_path(@break_reason_template), data: { turbo_method: :delete, turbo_confirm: "#{@break_reason_template.template_name}を削除してよろしいですか？" }  %>
+      </li>
+    </ul>
+  </div>
+</div>

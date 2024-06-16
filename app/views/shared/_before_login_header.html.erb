@@ -1,0 +1,14 @@
+<header>
+  <nav class="navbar-no-login">
+    <div class='navbar-brand-container-no-login'>
+    <%= link_to image_tag('logo.png',class:'navbar-brand'),"/" , data: { turbo: false }%>
+    </div>
+    <div class='navbar-collapse-no-login' id='navbarContent'>
+      <ul class='navbar-ul'>
+        <li class="navbar-li">
+          <%= link_to 'ログイン', login_path ,class: 'nav-link-no-login', data: { turbo: false } %>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>

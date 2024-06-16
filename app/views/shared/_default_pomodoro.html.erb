@@ -1,18 +1,49 @@
-<div id = "pomodoros" data-pomodoros = <%= default_pomodoro.to_json(include: :user) %>>
-
-<% if logged_in? %>
-  <div id = 'non_pomodoro_message'>まだあなたのポモドーロがありません</div>
+<% content_for :head do %>
+  <%= javascript_import_module_tag "timer" %>
+  <%= javascript_import_module_tag "timer_setting" %>
+  <script type="text/javascript">
+    const alarmSoundPath = "<%= asset_path('alarm_sound.mp3') %>";
+    const sessionEndSoundPath = "<%= asset_path('complete_sound.mp3') %>";
+    const okanReprimandsPath = "<%= asset_path('reprimands_sound.mp3') %>";
+    const reprimands = <%= raw @reprimands.to_json %>;
+  </script>
 <% end %>
+<div class = "container">
+  <div id = "defaultPomodoros" data-pomodoro = <%= default_pomodoro.to_json(include: :user) %>>
+  <div class = "setting-section">
+    <% if logged_in? %>
+      <div class = 'nothing'>まだあなたのポモドーロタイマーがありません!
+        <div class = 'have-nothing-link'>
+          <%= link_to 'ポモドーロタイマー登録', new_user_pomodoro_setting_path(current_user) %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class = "pomodoro-timer">
+    <div id = "pomodoroStatus"></div>
+    <div id="alarmControl">
+      <%= image_tag('alarm_on.png', id: 'alarmOn', style: 'cursor: pointer;') %>
+      <%= image_tag('alarm_off.png', id: 'alarmOff', style: 'display: none; cursor: pointer;') %>
+    </div>
+    <div class = "pomodoro-title-session">
+      <p id="pomodoroSession"><%= default_pomodoro.minutes %>分 X <%= default_pomodoro.total_sets %>セッション</p>
+      <h2 id="pomodoroTitle"><%= default_pomodoro.set_title %></h2>
+      <div class="pomodoro-sets"></div>
+    </div>
+    <div class = "timer-body">
+      <div id = "timer" ><%= default_pomodoro.minutes %>:00</div>
+    </div>
+    <div class = "timer-button">
+      <button id = "startButton">スタート</button>
+      <button class = "reset-button">離席する</button>
+    </div>
+  </div>
+</div>
 
-  <div class = "タイトルとセッション時間">
-    <h2><%= default_pomodoro.set_title %></h2>
-    <p><%= default_pomodoro.minutes %>分 X <%= default_pomodoro.total_sets %>セッション</p>
-  </div>
-  <div class = "タイマー本体">
-    <div id = "timer" ><%= default_pomodoro.minutes %>:00</div>
-  </div>
-  <div class = "ボタン">
-    <button id = "startButton">スタート</button>
-    <button id = "resetButton">離席する</button>
+<div id="okan-reprimand-popup" style="display: none;">
+  <div class = "popup" >
+    <%= image_tag('okan.png',id:'okanImage')%>
+    <p id="reprimandText"><%= @random_reprimand %></p>
+    <button id="resetPomodoroButton">仕切り直し</button>
   </div>
 </div>

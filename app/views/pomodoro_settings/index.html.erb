@@ -1,2 +1,22 @@
-<h1>PomodoroSettings#index</h1>
-<p>Find me in app/views/pomodoro_settings/index.html.erb</p>
+<% content_for(:title, 'ポモドーロ一覧')%>
+<div class="container">
+  <% if @pomodoro_settings.empty? %>
+    <div class = 'nothing'>
+      登録されたポモドーロタイマーがまだありません!
+      <div class ="have-nothing-link">
+        <%= link_to 'ポモドーロ登録', new_user_pomodoro_setting_path(current_user) %>
+      </div>
+    </div>
+  <% else %>
+    <h1 class="page_title">ポモドーロ一覧</h1>
+    <div class = 'nothing'>
+      <div class ="have-nothing-link">
+        <%= link_to 'ポモドーロ登録', new_user_pomodoro_setting_path(current_user) %>
+      </div>
+    </div>
+    <div class= "index-container">
+    <%= render partial:'shared/pomodoro_list_for_index', collection: @pomodoro_settings, as: :pomodoro_setting %>
+    <%# localsを使う場合やcollecionを使う場合はpartialオプションを省略するとエラーになる。 %>
+    </div>
+  <% end %>
+</div>

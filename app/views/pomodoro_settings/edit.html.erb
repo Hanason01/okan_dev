@@ -1,2 +1,37 @@
-<h1>PomodoroSettings#edit</h1>
-<p>Find me in app/views/pomodoro_settings/edit.html.erb</p>
+<% content_for(:title, 'ポモドーロ編集')%>
+<div class="container">
+  <div class="pomodoro-create-form">
+    <h1>ポモドーロ編集画面</h1>
+
+    <%= form_with model: [@user,@pomodoro_setting] do |pomodoro| %>
+      <% if @pomodoro_setting.errors.any? %>
+        <div style="color: red">
+          <ul>
+            <% @pomodoro_setting.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+        <div class="form-group">
+          <%= pomodoro.label :set_title, 'セッション名' %>
+          <%= pomodoro.text_field :set_title, class: "form-control", value: @pomodoro_setting.set_title %>
+        </div>
+        <div class="form-group">
+          <%= pomodoro.label :minutes, '時間(分）)' %>
+          <%= pomodoro.text_field :minutes, class: "form-control", value: @pomodoro_setting.minutes %>
+        </div>
+        <div class="form-group">
+          <%= pomodoro.label :breaks, '休憩（分）' %>
+          <%= pomodoro.text_field :breaks, class: "form-control", value: @pomodoro_setting.breaks %>
+        </div>
+        <div class="form-group">
+          <%= pomodoro.label :total_sets, 'セット数' %>
+          <%= pomodoro.text_field :total_sets, class: "form-control", value: @pomodoro_setting.total_sets %>
+        </div>
+        <div class='create-submit'>
+          <%= pomodoro.submit '保存', class: "create-btn" %>
+        </div>
+    <% end %>
+  </div>
+</div>

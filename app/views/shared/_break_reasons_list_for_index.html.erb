@@ -1,0 +1,11 @@
+<div class="reason-index">
+  <h4 class= "reason-title"><%= break_reason.reason %></h4>
+  <ul class = "btn-ul">
+    <li class = "btn-li">
+      <%= link_to image_tag('edit_icon.png', id: "button-edit-#{break_reason.id}"),  edit_break_reason_path(break_reason) %>
+    </li>
+    <li class = "btn-li">
+      <%= link_to image_tag('delete_icon.png', id: "button-delete-#{break_reason.id}"), break_reason_path(break_reason) , data: { turbo_method: :delete, turbo_confirm: "#{break_reason.reason}を削除してよろしいですか？" } %>
+    </li>
+  </ul>
+</div>

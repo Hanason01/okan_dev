@@ -1,18 +1,28 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>OkanDev</title>
+    <meta charset="UTF-8">
+    <title><%= page_title(yield(:title)) %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload"%>
-     <script defer src="https://ga.jspm.io/npm:es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <script defer src="https://ga.jspm.io/npm:es-module-shims@1.3.6/dist/es-module-shims.js"></script>
     <%= javascript_importmap_tags %>
+    <link rel="icon" type="image/x-icon" href="<%= asset_path 'favicon.ico' %>">
+    <%= yield :head %>
   </head>
 
   <body>
+    <%= render  'shared/flash_message'%>
+    <% if logged_in? %>
+      <%= render 'shared/header' %>
+    <% else %>
+      <%= render 'shared/before_login_header' %>
+    <% end %>
     <%= yield %>
+    <%= render 'shared/footer' %>
   </body>
 
 </html>
