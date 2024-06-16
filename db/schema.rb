@@ -10,9 +10,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_02_133505) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_11_082815) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "break_reason_associations", force: :cascade do |t|
+    t.bigint "break_reason_id", null: false
+    t.bigint "break_reason_template_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["break_reason_id", "break_reason_template_id"], name: "index_on_break_reason_association_uniqueness", unique: true
+    t.index ["break_reason_id"], name: "index_break_reason_associations_on_break_reason_id"
+    t.index ["break_reason_template_id"], name: "index_break_reason_associations_on_break_reason_template_id"
+  end
+
+  create_table "break_reason_templates", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "template_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_break_reason_templates_on_user_id"
+  end
+
+  create_table "break_reasons", force: :cascade do |t|
+    t.string "reason", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_break_reasons_on_user_id"
+  end
+
+  create_table "okan_reprimands", force: :cascade do |t|
+    t.string "body", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "pomodoro_settings", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -35,5 +67,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_02_133505) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "break_reason_associations", "break_reason_templates"
+  add_foreign_key "break_reason_associations", "break_reasons"
+  add_foreign_key "break_reason_templates", "users"
+  add_foreign_key "break_reasons", "users"
   add_foreign_key "pomodoro_settings", "users"
 end

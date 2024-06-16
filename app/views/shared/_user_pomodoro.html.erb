@@ -1,13 +1,95 @@
-<div id = "pomodoros" data-pomodoros = <%= pomodoro_settings.to_json(include: :user) %>>
-    <div class = "タイトルとセッション時間">
-      <h2><%= pomodoro_settings.set_title %></h2>
-      <p><%= pomodoro_settings.minutes %>分×<%= pomodoro_settings.set_count %>セッション</p>
+<% content_for :head do %>
+  <%= javascript_import_module_tag "timer" %>
+  <%= javascript_import_module_tag "timer_setting" %>
+  <script type="text/javascript">
+    const alarmSoundPath = "<%= asset_path('alarm_sound.mp3') %>";
+    const sessionEndSoundPath = "<%= asset_path('complete_sound.mp3') %>";
+    const okanReprimandsPath = "<%= asset_path('reprimands_sound.mp3') %>";
+    const reprimands = <%= raw @reprimands.to_json %>;
+  </script>
+<% end %>
+<div class = "setting-section">
+  <!-- ポモドーロ選択ボタンとメッセージ -->
+  <div class="form-group" id="pomodoroSection">
+    <%= form_with url: select_pomodoro_path, method: :get, local: true do %>
+      <button type="button" id="pomodoroSelectButton">タイマー選択</button>
+      <select id="pomodoroSelectMenu" name="pomodoro_id" style="display: none;">
+        <option id= "pomodoroSelectOption" value="">選択してください</option> <!-- 空のオプションを追加 -->
+        <% @pomodoro_settings.each do |pomodoro| %>
+          <option value="<%= pomodoro.id %>"><%= pomodoro.set_title %></option>
+        <% end %>
+      </select>
+      <%= submit_tag '表示', id: 'pomodoroSelectSubmit', style: 'display: none;' %>
+    <% end %>
+  </div>
+
+  <!-- 離席理由テンプレート選択ボタンとメッセージ（非表示） -->
+  <% if @break_reason_templates %>
+    <div class="form-group" id="breakReasonTemplateSection" style="display: none;">
+      <%= form_with url: select_break_reason_template_path, method: :get, local: true do %>
+        <button type="button" id="breakReasonTemplateSelectButton">離席理由テンプレート選択</button>
+        <select id="breakReasonTemplateSelectMenu" name="break_reason_template_id" style="display: none;">
+          <option value="">選択してください</option> <!-- 空のオプションを追加 -->
+          <% @break_reason_templates.each do |template| %>
+            <option value="<%= template.id %>"><%= template.template_name %></option>
+          <% end %>
+        </select>
+        <%= submit_tag '表示', id: 'breakReasonTemplateSelectSubmit', style: 'display: none;' %>
+      <% end %>
     </div>
-    <div class = "タイマー本体">
-      <span id = "minutes" ><%= pomodoro_settings.minutes %></span> : <span id = "seconds">00</span>
+  <% else %>
+    <div class = 'nothing'>まだあなたの離席理由テンプレートがありません！
+      <div class = 'have-nothing-link'>
+        <%= link_to '離席理由テンプレート登録はこちらから', new_user_break_reason_template_path(current_user) , data: { turbo: false } %>
+      </div>
     </div>
-    <div class = "ボタン">
-      <button id = "startButton">スタート</button>
-      <button id = "breakButton">離席する</button>
+  <% end %>
+
+  <!-- 初期メッセージ -->
+  <div id="initialMessage" <% if @selected_pomodoro %> style="display: none;"<% end %>>
+    <p>タイマー選択ボタンから選択してください！</p>
+  </div>
+</div>
+
+
+<!-- ポモドーロ詳細（初期状態では非表示） -->
+<% if @selected_pomodoro %>
+  <div id="pomodoroDetails" data-pomodoro='<%= @selected_pomodoro.to_json %>'></div>
+  <div class = "pomodoro-timer">
+    <div id="pomodoroStatus"></div>
+    <!-- アラームのオンオフを切り替えるためのボタン -->
+    <div id="alarmControl">
+      <%= image_tag('alarm_on.png', id: 'alarmOn', style: 'cursor: pointer;') %>
+      <%= image_tag('alarm_off.png', id: 'alarmOff', style: 'display: none; cursor: pointer;') %>
     </div>
+    <div class="pomodoro-title-session">
+      <p id="pomodoroSession"><%= @selected_pomodoro.minutes %>分×<%= @selected_pomodoro.total_sets %>セッション</p>
+      <h2 id="pomodoroTitle"><%= @selected_pomodoro.set_title %></h2>
+      <div class="pomodoro-sets"></div>
+    </div>
+    <div class="timer-body">
+      <div id="timer"><%= @selected_pomodoro.minutes %>:00</div>
+    </div>
+    <div class="timer-button">
+      <button id="startButton">スタート</button>
+      <% if @selected_template %>
+        <div class="reset-buttons-container">
+        <% @selected_template.break_reasons.each do |reason| %>
+          <button class="reset-button"><%= reason.reason %></button>
+        <% end %>
+        </div>
+      <% else %>
+        <button class="reset-button">離席する</button>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+
+<div id="okan-reprimand-popup" style="display: none;">
+  <div class = "popup" >
+    <%= image_tag('okan.png',id:'okanImage')%>
+    <p id="reprimandText"><%= @random_reprimand %></p>
+    <button id="resetPomodoroButton">仕切り直し</button>
+  </div>
 </div>

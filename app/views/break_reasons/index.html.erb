@@ -1,0 +1,25 @@
+<% content_for(:title, '離席理由一覧')%>
+<div class="container">
+  <% if @break_reasons.empty? %>
+    <div class = 'nothing'>
+      登録された離席理由がまだありません!
+      <div class ="have-nothing-link">
+        <%= link_to '離席理由登録', new_user_break_reason_path(current_user), data: { turbo: false}%>
+      </div>
+    </div>
+  <% else %>
+    <h1 class="page_title">離席理由一覧</h1>
+    <div class = 'nothing'>
+      <div class ="have-nothing-link">
+      <%= link_to '離席理由登録', new_user_break_reason_path(current_user), data: { turbo: false}%>
+      </div>
+      <div class ="have-nothing-link">
+      <%= link_to 'テンプレート一覧', user_break_reason_templates_path(current_user), data: { turbo: false}%>
+      </div>
+    </div>
+    <div class= "index-container">
+    <%= render partial:'shared/break_reasons_list_for_index', collection: @break_reasons, as: :break_reason %>
+    <%# localsを使う場合やcollecionを使う場合はpartialオプションを省略するとエラーになる。 %>
+    </div>
+  <% end %>
+</div>

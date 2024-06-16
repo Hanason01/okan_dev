@@ -1,0 +1,25 @@
+<% content_for(:title, '離席理由登録')%>
+<div class="container">
+    <div class="reason-create-form">
+      <h1>離席理由登録</h1>
+
+      <%= form_with model: [@user,@break_reason] do |form| %>
+        <% if @break_reason.errors.any? %>
+          <div style="color: red">
+            <ul>
+              <% @break_reason.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+          <div class="form-group">
+            <%= form.label :reason, '離席理由' %>
+            <%= form.text_field :reason, class: "form-control" %>
+          </div>
+          <div class='create-submit'>
+            <%= form.submit '登録', class: "create-btn" %>
+          </div>
+      <% end %>
+    </div>
+</div>

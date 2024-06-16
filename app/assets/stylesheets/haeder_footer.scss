@@ -1,0 +1,124 @@
+header {
+  background-color: rgba(168, 213, 223, 0.5);
+    .navbar,.navbar-no-login {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+
+    .navbar-brand-container,.navbar-brand-container-no-login {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .navbar-brand{
+        border-radius: 1rem;
+      }
+
+      .menu-toggle {
+        display: none; /* 初期状態では非表示 */
+      }
+    }
+  }
+}
+
+footer {
+  text-align: center;
+}
+
+// header以下の設定
+.home-page {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+
+.navbar-li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* submitボタンのスタイルをリンクのようにする */
+  #logout-submit {
+    background: none; /* 背景色をリセット */
+    border: none; /* ボーダーをリセット */
+    color: #727272;
+    padding: 0; /* パディングをリセット */
+    cursor: pointer; /* カーソルをポインターにする */
+    display: inline-block; /* インラインブロックにする */
+    &:hover {
+      color: rgb(149, 112, 180);
+    }
+  }
+
+  .nav-link,.nav-link-no-login {
+    text-decoration: none; /* 下線を消す */
+    display: inline-block; /* インラインブロックにする */
+    font-size: inherit; /* フォントサイズを継承 */
+    padding-right: 1.2rem;
+    color: #727272;
+    &:hover {
+      color: rgb(149, 112, 180);
+    }
+  }
+}
+
+
+
+/* レスポンシブデザインの設定 */
+@media (max-width: 720px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+  }
+
+  .navbar-brand-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbar-collapse {
+    display: none; /* デフォルトでメニューを非表示にする */
+    flex-direction: column;
+    align-items: center; /* 中央に配置 */
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .menu-icon {
+    display: block;
+    cursor: pointer;
+    font-size: 2rem;
+    background-color: #fff;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+  }
+
+  .navbar-collapse.active {
+    display: flex;
+  }
+
+  .navbar-ul {
+    width: 100%;
+    padding-right: 0;
+
+    li {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+
+      .nav-link{
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        padding-bottom: 1rem;
+      }
+    }
+  }
+}

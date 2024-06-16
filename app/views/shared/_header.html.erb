@@ -1,0 +1,19 @@
+<header>
+  <nav class='navbar'>
+    <div class='navbar-brand-container'>
+      <%= link_to image_tag('logo.png', class: 'navbar-brand'), "/", data: { turbo: false } %>
+      <button class="menu-icon" id="menu-toggle">☰</button>
+    </div>
+    <div class='navbar-collapse' id='navbarContent'>
+      <ul class='navbar-ul'>
+        <li class='navbar-li'>
+          <%= link_to 'ポモドーロ一覧', user_pomodoro_settings_path(current_user), class: 'nav-link', data: { turbo: false } %>
+          <%= link_to '離席理由一覧', user_break_reasons_path(current_user), class: 'nav-link', data: { turbo: false } %>
+          <%= form_with(url: logout_path, method: :delete, data: { turbo: false }, class: 'logout-form') do |form| %>
+            <%= form.submit 'ログアウト', class: 'nav-link', id: 'logout-submit' %>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>

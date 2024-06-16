@@ -1,0 +1,13 @@
+<div class="template-index">
+  <h4 class="template-title">
+    <%= link_to break_reason_template.template_name, break_reason_template_path(break_reason_template) %>
+  </h4>
+  <ul class="btn-ul">
+    <li class = "btn-li">
+      <%= link_to image_tag('edit_icon.png', id: "button-edit-#{break_reason_template.id}"), edit_break_reason_template_path(break_reason_template), data: { turbo: false } %>
+    </li>
+    <li class = "btn-li">
+      <%= link_to image_tag('delete_icon.png',id: "button-delete-#{break_reason_template.id}"), break_reason_template_path(break_reason_template) , data: { turbo_method: :delete, turbo_confirm: "#{break_reason_template.template_name}を削除してよろしいですか？" }  %>
+    </li>
+  </ul>
+</div>

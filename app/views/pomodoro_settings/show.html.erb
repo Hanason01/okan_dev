@@ -1,6 +1,20 @@
-<h1>Pomodoro Timer</h1>
-<div id="timer">
-  <span id="minutes">25</span>:<span id="seconds">00</span>
+<% content_for(:title, @pomodoro_setting.set_title)%>
+<div class="container">
+  <div class="pomodoro-show-form">
+    <h1 class ="page_title">詳細画面</h1>
+    <ul class="show-ul">
+      <li class="show-li">セッション名： <%= @pomodoro_setting.set_title %></li>
+      <li class="show-li">時間（分）：<%= @pomodoro_setting.minutes %></li>
+      <li class="show-li">休憩（分）：<%= @pomodoro_setting.breaks %></li>
+      <li class="show-li">セット数：<%= @pomodoro_setting.total_sets %></li>
+    </ul>
+    <ul class="btn-ul">
+      <li class="show-btn">
+        <%= link_to image_tag('edit_icon.png', id: "button-edit-#{@pomodoro_setting.id}"), edit_pomodoro_setting_path(@pomodoro_setting)  %>
+      </li>
+      <li class="show-btn">
+      <%= link_to image_tag('delete_icon.png'),pomodoro_setting_path(@pomodoro_setting), data: { turbo_method: :delete, turbo_confirm: "#{@pomodoro_setting.set_title}を削除してよろしいですか？" } %>
+      </li>
+    </ul>
+  </div>
 </div>
-<button id="start-timer">Start</button>
-<button id="stop-timer">Stop</button>

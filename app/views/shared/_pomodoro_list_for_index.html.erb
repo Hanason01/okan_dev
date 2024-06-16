@@ -1,0 +1,17 @@
+<div class="pomodoro-index">
+  <h4 class="pomodoro-title">
+    <%= link_to pomodoro_setting.set_title, pomodoro_setting_path(pomodoro_setting) %>
+  </h4>
+  <ul class="pomodoro-ul">
+    <li><i class="pomodoro-li"></i> <%= pomodoro_setting.minutes %>分 X <%= pomodoro_setting.total_sets %>セット</li>
+    <li><i class="pomodoro-li"></i> 休憩：<%= pomodoro_setting.breaks %>分</li>
+  </ul>
+  <ul class="btn-ul">
+    <li class = "btn-li">
+      <%= link_to image_tag('edit_icon.png' ,id: "button-edit-#{pomodoro_setting.id}"), edit_pomodoro_setting_path(pomodoro_setting) %>
+    </li>
+    <li class = "btn-li" >
+      <%= link_to image_tag('delete_icon.png', id: "button-delete-#{pomodoro_setting.id}"), pomodoro_setting_path(pomodoro_setting),  data: { turbo_method: :delete, turbo_confirm: "#{pomodoro_setting.set_title}を削除してよろしいですか？" } %>
+    </li>
+  </ul>
+</div>

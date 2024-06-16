@@ -1,36 +1,114 @@
+import "easytimer";
+
+// タイマー作動フラグとして指定
+export let timerRunning = false;
+
+// ここから下がタイマー本体の設定
 const timer = new easytimer.Timer();
 let setCount = 0;
 let totalSets;
 let minutes;
 let breaks;
+let alarmEnabled = true;
 
-document.addEventListener('DOMContentLoaded', function() {
-  const pomodoros = JSON.parse(document.getElementById('pomodoros').dataset.pomodoros);
-// setCount２回でポモドーロと休憩の１セットなのでtotalsSetsは２倍
-    // totalSets = pomodoros.total_sets *2 ;
-    // minutes = pomodoros.minutes;
-    // breaks = pomodoros.breaks;
-// テスト用コード
-  totalSets = 1 *2;
-  minutes = 1;
-  breaks = 1;
+// アラーム音の設定
+const alarmSound = new Audio(alarmSoundPath);
+const sessionEndSound = new Audio(sessionEndSoundPath);
+const okanReprimands = new Audio(okanReprimandsPath);
+
+console.log("timer.jsが読み込まれました");
+
+
+
+document.addEventListener('turbo:load', function() {
+  console.log("turbo:loadが読まれました");
+  let pomodoro;
+  const pomodoroDetails = document.getElementById('pomodoroDetails');
+  const defaultPomodoros = document.getElementById('defaultPomodoros');
+  if (pomodoroDetails) {
+    pomodoro = JSON.parse(pomodoroDetails.dataset.pomodoro);}
+  else if(defaultPomodoros){
+    pomodoro = JSON.parse(defaultPomodoros.dataset.pomodoro);}
+    // setCount２回でポモドーロと休憩の１セットなのでtotalsSetsは２倍
+  totalSets = pomodoro.total_sets * 2;
+  minutes = pomodoro.minutes;
+  breaks = pomodoro.breaks;
+
+  initPomodoroSets(totalSets/2);
+
+
+   // アラームのオンオフ要素を切り替えるイベントリスナー
+  document.getElementById('alarmOn').addEventListener('click', () => {
+    console.log('alarm OFF!');
+    document.getElementById('alarmOn').style.display = 'none';
+    document.getElementById('alarmOff').style.display = 'block';
+    if (document.getElementById('alarmOff').style.display == 'block') {
+      alarmEnabled = false;
+    }
+  });
+
+  document.getElementById('alarmOff').addEventListener('click', () => {
+    console.log('alarm ON!');
+    document.getElementById('alarmOff').style.display = 'none';
+    document.getElementById('alarmOn').style.display = 'block';
+    if (document.getElementById('alarmOn').style.display == 'block') {
+      alarmEnabled = true;
+    }
+  });
+
+
+    // クリックイベントに対応する処理の記載
+  // スタートボタン
+  document.getElementById('startButton').addEventListener('click', function() {
+    setCount = 0;
+    startPomodoro();
+    document.getElementById('startButton').style.display = 'none';
+  });
+
+  // 離席ボタン
+  const resetButtons = document.getElementsByClassName('reset-button');
+  Array.from(resetButtons).forEach(button => {
+    button.addEventListener('click', function() {
+      timer.stop();
+      timerRunning = false;
+      const popup = document.getElementById('okan-reprimand-popup');
+      popup.style.display = 'block';
+      okanReprimands.play();
+      randomReprimand();
+    });
+  });
+
+  // 仕切りなおすボタンのイベントリスナー
+  document.getElementById('resetPomodoroButton').addEventListener('click', function() {
+    initPomodoro();
+    // ポップアップを非表示にする
+    const popup = document.getElementById('okan-reprimand-popup');
+    popup.style.display = 'none';
+  });
 });
 
 // 関数ーーーーーーーーーーーーーー
 // 初期表示
 function initPomodoro() {
+  document.getElementById('pomodoroStatus').innerText = '';
+  document.querySelector('.pomodoro-timer').style.backgroundColor = 'rgba(238, 237, 237, 0.5)';
   document.getElementById('timer').innerText = minutes.toString().padStart(2, '0') + ":00";
 }
 
 // ポモドーロ、休憩のカウントをスタートする関数
 function startPomodoro() {
   timer.stop();
+  timerRunning = true;
+  document.getElementById('pomodoroStatus').innerText = '作業中';
+  document.querySelector('.pomodoro-timer').style.backgroundColor = 'rgba(42, 124, 191, 0.5)';
   timer.start({countdown: true, startValues: {minutes: minutes}});
   console.log("Pomodoro started");
 }
 
 function startBreak() {
   timer.stop();
+  document.getElementById('pomodoroStatus').innerText = '休憩中';
+  document.querySelector('.pomodoro-timer').style.backgroundColor = 'rgba(255, 151, 15, 0.5)';
   timer.start({countdown: true, startValues: {minutes: breaks}});
   console.log("Break started");
 }
@@ -40,12 +118,25 @@ function handleTimerEnd() {
   console.log("handleTimerEnd called at", timer.getTimeValues().toString());
   if (setCount < totalSets - 1) {
     if (setCount % 2 === 0) {
+        if (alarmEnabled) {
+          console.log("alarm Play!");
+          alarmSound.play();
+        }
         startBreak();
     } else {
+        if (alarmEnabled) {
+          console.log("alarm Play!");
+          alarmSound.play();
+        }
+        console.log(setCount);
+        updatePomodoroSets(setCount - 1);
         startPomodoro();
       }
     setCount++;
   } else {
+    console.log(setCount);
+    updatePomodoroSets((setCount - 1)/2);
+    document.getElementById('pomodoroStatus').innerText = 'クリア！';
     setTimeout(function(){
     sessionFinished();
     initPomodoro();
@@ -61,30 +152,59 @@ function updateTimer(){
 
 // セッションが終了したらする処理
 function sessionFinished(){
+    if (alarmEnabled) {
+      console.log("completealarm Play!");
+      sessionEndSound.play();
+    }
     alert("セッション終了");
+    initPomodoroSets(totalSets);
+    resetPomodoroSets();
+    timerRunning = false;
 }
+
+// セットカウントの初期化
+function initPomodoroSets(totalSets) {
+  console.log("initPomodoroSets");
+  const pomodoroSetsContainer = document.querySelector('.pomodoro-sets');
+  pomodoroSetsContainer.innerHTML = '';
+  for (let i = 0; i < totalSets; i++) {
+    const setElement = document.createElement('div');
+    setElement.className = 'pomodoro-set';
+    pomodoroSetsContainer.appendChild(setElement);
+  }
+}
+
+// セットカウントの更新(CSSを動的に変更)
+function updatePomodoroSets(setCounted) {
+  console.log("updatePomodoroSets");
+  console.log(setCounted);
+  const pomodoroSets = document.querySelectorAll('.pomodoro-set');
+  pomodoroSets[setCounted].classList.add('completed');
+  console.log(pomodoroSets);
+}
+
+// セットカウントの初期化
+function resetPomodoroSets() {
+  const resetPomodoroSetsContainer = document.querySelector('.pomodoro-sets');
+  resetPomodoroSetsContainer.innerText = '';
+}
+
+// ランダムにReprimandを選択して表示する関数
+function randomReprimand(){
+  const randomReprimand = reprimands[Math.floor(Math.random() * reprimands.length)];
+  document.getElementById('reprimandText').innerText = randomReprimand.body;
+  document.getElementById('startButton').style.display = 'block';
+};
+
 
 // タイマーの時間更新、終了によって呼び出されるイベントリスナー
 
 timer.addEventListener('secondsUpdated', function (e) {
-  updateTimer()
+  updateTimer();
   console.log('SecondsUpdated発生', timer.getTimeValues().toString());
 });
 
 timer.addEventListener('targetAchieved', function(e){
   console.log('targetAchieved event triggered', timer.getTimeValues().toString());
   handleTimerEnd();
-});
-
-// クリックイベントに対応する処理の記載
-// スタートボタン
-document.getElementById('startButton').addEventListener('click', function() {
-  setCount = 0;
-  startPomodoro();
-});
-
-// 離席ボタン
-document.getElementById('resetButton').addEventListener('click', function() {
-  timer.stop();
-  initPomodoro();
 });

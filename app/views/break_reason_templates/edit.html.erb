@@ -1,0 +1,37 @@
+<% content_for(:title, 'テンプレート編集') %>
+<% content_for :head do %>
+  <%= javascript_import_module_tag "template_edit" %>
+<% end %>
+<div class="container">
+  <div class="template-create-form">
+    <h1>テンプレート編集</h1>
+
+    <%= form_with model: [@break_reason_template], url: break_reason_template_path(@break_reason_template), method: :patch do |form| %>
+      <% if @break_reason_template.errors.any? %>
+        <div style="color: red">
+          <ul>
+            <% @break_reason_template.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div id="break-reasons-data" data-break-reasons='<%= @break_reasons.to_json(only: [:id, :reason]) %>'></div>
+      <div class="form-group">
+        <%= form.label :template_name, 'テンプレート名' %>
+        <%= form.text_field :template_name, value: @break_reason_template.template_name %>
+      </div>
+      <% 5.times do |i| %>
+      <div class="form-group">
+        <% selected_reason = @break_reason_template.break_reasons[i] %>
+        <%= form.label "離席理由 #{i + 1}" %>
+        <%= select_tag "break_reason_#{i + 1}", options_for_select(@break_reasons.map { |br| [br.reason, br.id] }, selected_reason&.id), include_blank: true, class: 'break-reason-select', data: { index: i + 1 } %>
+        <%= hidden_field_tag "break_reason_template[break_reason_ids][]", selected_reason&.id, class: 'hidden-break-reason-id', data: { index: i + 1 } %>
+      </div>
+      <% end %>
+      <div class="create-submit">
+        <%= form.submit '更新', class: "create-btn" %>
+      </div>
+    <% end %>
+  </div>
+</div>

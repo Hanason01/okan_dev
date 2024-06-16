@@ -14,6 +14,12 @@ Rails.application.routes.draw do
 
   #for users nested pomodoro_settings
   resources :users, only: %i[new create], shallow: true do
-    resources :pomodoro_settings,only: %i[index show new create edit destroy]
+    resources :pomodoro_settings,only: %i[index show new create edit update destroy]
+    resources :break_reasons,only: %i[index new create edit update destroy]
+    resources :break_reason_templates,only: %i[index show new create edit update destroy]
   end
+
+  #for select_pomodoro
+  get "select_pomodoro" , to: "pomodoro_settings#select_pomodoro"
+  get "select_break_reason_template" , to: "pomodoro_settings#select_break_reason_template"
 end
