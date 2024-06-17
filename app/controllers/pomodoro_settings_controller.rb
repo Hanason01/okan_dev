@@ -24,11 +24,16 @@ class PomodoroSettingsController < ApplicationController
     end
 
     # セッションに存在しないポモドーロIDが保持されている場合に削除
-    if session[:selected_pomodoro_id] && !@pomodoro_settings.exists?(session[:selected_pomodoro_id])
-      session.delete(:selected_pomodoro_id)
+    if session[:selected_pomodoro_id]
+      if @pomodoro_settings.blank? || !@pomodoro_settings.exists?(session[:selected_pomodoro_id])
+        session.delete(:selected_pomodoro_id)
+      end
     end
-    if session[:selected_template_id] && !@break_reason_templates.exists?(session[:selected_template_id])
-      session.delete(:selected_template_id)
+
+    if session[:selected_template_id]
+      if @break_reason_templates.blank? || !@break_reason_templates.exists?(session[:selected_template_id])
+        session.delete(:selected_template_id)
+      end
     end
 
     # ポモドーロ、テンプレート選択時の処理（セッションに保持）
