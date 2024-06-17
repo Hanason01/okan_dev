@@ -26,6 +26,7 @@ services:
       DATABASE_USER: postgres
       DATABASE_PASSWORD: password
       DATABASE_HOST: db
+      DATABASE_URL: postgres://postgres:password@db:5432/okan_dev_development
     ports:
       - "3000:3000"
     depends_on:
