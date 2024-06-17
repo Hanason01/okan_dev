@@ -6,6 +6,15 @@
   <div class="template-create-form">
     <h1>テンプレート登録</h1>
 
+    <% if @break_reasons.empty? %>
+      <div class = 'nothing'>
+        登録された離席理由がまだありません!
+        <div class ="have-nothing-link">
+          <%= link_to '離席理由登録', new_user_break_reason_path(current_user), data: { turbo: false}%>
+        </div>
+      </div>
+    <% end %>
+
     <%= form_with model: [@user, @break_reason_template] do |form| %>
       <% if @break_reason_template.errors.any? %>
         <div style="color: red">

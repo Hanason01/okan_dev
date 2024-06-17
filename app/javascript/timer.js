@@ -67,9 +67,12 @@ document.addEventListener('turbo:load', function() {
     button.addEventListener('click', function() {
       timer.stop();
       timerRunning = false;
+      if (alarmEnabled) {
+        console.log("オカンアラーム発音");
+        okanReprimands.play();
+      }
       const popup = document.getElementById('okan-reprimand-popup');
       popup.style.display = 'block';
-      okanReprimands.play();
       randomReprimand();
     });
   });
