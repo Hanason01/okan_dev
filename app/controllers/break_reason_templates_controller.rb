@@ -40,6 +40,7 @@ class BreakReasonTemplatesController < ApplicationController
   end
 
   def update
+    @break_reasons = current_user.break_reasons
     if @break_reason_template.id == 1
       flash.now[:alert] = 'デフォルトの離席理由テンプレートは編集できません'
       render :edit, status: :unprocessable_entity

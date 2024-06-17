@@ -34,8 +34,6 @@ document.addEventListener('turbo:load', function() {
   minutes = pomodoro.minutes;
   breaks = pomodoro.breaks;
 
-  initPomodoroSets(totalSets/2);
-
 
    // アラームのオンオフ要素を切り替えるイベントリスナー
   document.getElementById('alarmOn').addEventListener('click', () => {
@@ -61,6 +59,7 @@ document.addEventListener('turbo:load', function() {
   // スタートボタン
   document.getElementById('startButton').addEventListener('click', function() {
     setCount = 0;
+    initPomodoroSets(totalSets/2);
     startPomodoro();
     document.getElementById('startButton').style.display = 'none';
   });
@@ -93,6 +92,7 @@ function initPomodoro() {
   document.getElementById('pomodoroStatus').innerText = '';
   document.querySelector('.pomodoro-timer').style.backgroundColor = 'rgba(238, 237, 237, 0.5)';
   document.getElementById('timer').innerText = minutes.toString().padStart(2, '0') + ":00";
+  document.getElementById('startButton').style.display = 'block';
 }
 
 // ポモドーロ、休憩のカウントをスタートする関数
