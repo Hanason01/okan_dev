@@ -41,39 +41,21 @@ class BreakReasonTemplatesController < ApplicationController
 
   def update
     @break_reasons = current_user.break_reasons
-    if @break_reason_template.id == 1
-      flash.now[:alert] = 'デフォルトの離席理由テンプレートは編集できません'
-      render :edit, status: :unprocessable_entity
-    else
       if @break_reason_template.update(break_reason_template_params)
-        # @break_reason_template.break_reason_associations.destroy_all
-        # selected_reasons = params[:break_reason_template][:break_reason_ids].reject { |element| element.blank? }
-        # selected_reasons.each do |break_reason_id|
-        #   BreakReasonAssociation.create(
-        #     break_reason_template_id: @break_reason_template,
-        #     break_reason_id: break_reason_id
-        #   )
-        # end
         flash[:success] = '更新されました'
         redirect_to user_break_reason_templates_path(current_user)
       else
         flash.now[:danger] = '更新に失敗しました'
         render :edit, status: :unprocessable_entity
       end
-    end
   end
 
   def destroy
-    if @break_reason_template.id == 1
-      flash.now[:alert] = 'デフォルトの離席理由テンプレートは削除できません'
-      render :edit, status: :unprocessable_entity
-    else
-      @break_reason_template.destroy!
-      if session[:selected_template_id] == @break_reason_template.id
-        session.delete(:selected_template_id)
-      end
-      redirect_to user_break_reason_templates_path(current_user), success: '削除されました', status: :see_other
+    @break_reason_template.destroy!
+    if session[:selected_template_id] == @break_reason_template.id
+      session.delete(:selected_template_id)
     end
+    redirect_to user_break_reason_templates_path(current_user), success: '削除されました', status: :see_other
   end
 
   private

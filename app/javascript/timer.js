@@ -3,7 +3,7 @@ import "easytimer";
 // タイマー作動フラグとして指定
 export let timerRunning = false;
 
-// ここから下がタイマー本体の設定
+// 変数初期化
 const timer = new easytimer.Timer();
 let setCount = 0;
 let totalSets;
@@ -15,9 +15,6 @@ let alarmEnabled = true;
 const alarmSound = new Audio(alarmSoundPath);
 const sessionEndSound = new Audio(sessionEndSoundPath);
 const okanReprimands = new Audio(okanReprimandsPath);
-
-console.log("timer.jsが読み込まれました");
-
 
 
 document.addEventListener('turbo:load', function() {
@@ -102,7 +99,7 @@ function startPomodoro() {
   document.getElementById('pomodoroStatus').innerText = '作業中';
   document.querySelector('.pomodoro-timer').style.backgroundColor = 'rgba(42, 124, 191, 0.5)';
   timer.start({countdown: true, startValues: {minutes: minutes}});
-  console.log("Pomodoro started");
+  console.log("作業開始");
 }
 
 function startBreak() {
@@ -110,7 +107,7 @@ function startBreak() {
   document.getElementById('pomodoroStatus').innerText = '休憩中';
   document.querySelector('.pomodoro-timer').style.backgroundColor = 'rgba(255, 151, 15, 0.5)';
   timer.start({countdown: true, startValues: {minutes: breaks}});
-  console.log("Break started");
+  console.log("休憩開始");
 }
 
 // カウント終了時の関数
@@ -119,13 +116,13 @@ function handleTimerEnd() {
   if (setCount < totalSets - 1) {
     if (setCount % 2 === 0) {
         if (alarmEnabled) {
-          console.log("alarm Play!");
+          console.log("アラーム発音");
           alarmSound.play();
         }
         startBreak();
     } else {
         if (alarmEnabled) {
-          console.log("alarm Play!");
+          console.log("アラーム発音");
           alarmSound.play();
         }
         console.log(setCount);
@@ -134,7 +131,6 @@ function handleTimerEnd() {
       }
     setCount++;
   } else {
-    console.log(setCount);
     updatePomodoroSets((setCount - 1)/2);
     document.getElementById('pomodoroStatus').innerText = 'クリア！';
     setTimeout(function(){
@@ -153,7 +149,7 @@ function updateTimer(){
 // セッションが終了したらする処理
 function sessionFinished(){
     if (alarmEnabled) {
-      console.log("completealarm Play!");
+      console.log("終了アラーム発音");
       sessionEndSound.play();
     }
     alert("セッション終了");
@@ -177,10 +173,8 @@ function initPomodoroSets(totalSets) {
 // セットカウントの更新(CSSを動的に変更)
 function updatePomodoroSets(setCounted) {
   console.log("updatePomodoroSets");
-  console.log(setCounted);
   const pomodoroSets = document.querySelectorAll('.pomodoro-set');
   pomodoroSets[setCounted].classList.add('completed');
-  console.log(pomodoroSets);
 }
 
 // セットカウントの初期化
@@ -201,7 +195,7 @@ function randomReprimand(){
 
 timer.addEventListener('secondsUpdated', function (e) {
   updateTimer();
-  console.log('SecondsUpdated発生', timer.getTimeValues().toString());
+  console.log('SecondsUpdated', timer.getTimeValues().toString());
 });
 
 timer.addEventListener('targetAchieved', function(e){

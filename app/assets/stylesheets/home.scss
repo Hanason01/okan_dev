@@ -2,7 +2,6 @@
 
 .setting-section {
   padding: 1rem;
-  border-bottom: 0.25rem solid rgba(120, 117, 117, 0.5);
 }
 
 .nothing {
@@ -42,6 +41,13 @@
   margin-left: 3rem;
   font-size: 1rem;
   border-radius: 0.5rem;
+}
+
+.timer-wrapper{
+  padding: 4rem 0;
+  margin: 0 2rem;
+  border-bottom: 0.2rem solid rgba(120, 117, 117, 0.5);
+  border-top: 0.2rem solid rgba(120, 117, 117, 0.5);
 }
 
 .pomodoro-timer {
@@ -166,8 +172,6 @@
     }
   }
 }
-
-/* メディアクエリを使用してレスポンシブデザインを実装 */
 
 /* スマートフォンサイズ（600px以下） */
 @media (max-width: 600px) {

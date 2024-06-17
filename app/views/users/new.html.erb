@@ -1,4 +1,4 @@
-<% content_for(:title, t('ユーザー登録'))%>
+<% content_for(:title, 'ユーザー登録')%>
 <div class='container'>
   <div class='user-create-form'>
     <h1>ユーザー登録</h1>
@@ -14,19 +14,19 @@
     <% end %>
 
     <div class='form-group'>
-      <%= f.label 'ニックネーム' %>
+      <%= f.label :name %>
       <%= f.text_field :name, class: 'form-control' %>
     </div>
     <div class='form-group'>
-      <%= f.label 'メールアドレス' %>
+      <%= f.label :email %>
       <%= f.email_field :email, class: 'form-control' %>
     </div>
     <div class='form-group'>
-      <%= f.label 'パスワード' %>
+      <%= f.label :password %>
       <%= f.password_field :password, class: 'form-control' %>
     </div>
     <div class='form-group'>
-      <%= f.label 'パスワード確認' %>
+      <%= f.label :password_confirmation %>
       <%= f.password_field :password_confirmation, class: 'form-control' %>
     </div>
     <div class='create-submit'>

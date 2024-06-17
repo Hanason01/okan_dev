@@ -12,11 +12,23 @@ class PomodoroSettingsController < ApplicationController
       @default_pomodoro = PomodoroSetting.includes(:user).find(1)
     end
 
+    if logged_in?
+      @user = User.find(current_user.id)
+    end
+
     # テンプレートの保持の有無判定
     if current_user&.break_reason_templates&.exists?
       @break_reason_templates = current_user.break_reason_templates.includes(:break_reasons)
     else
       @break_reason_templates = nil
+    end
+
+    # セッションに存在しないポモドーロIDが保持されている場合に削除
+    if session[:selected_pomodoro_id] && !@pomodoro_settings.exists?(session[:selected_pomodoro_id])
+      session.delete(:selected_pomodoro_id)
+    end
+    if session[:selected_template_id] && !@break_reason_templates.exists?(session[:selected_template_id])
+      session.delete(:selected_template_id)
     end
 
     # ポモドーロ、テンプレート選択時の処理（セッションに保持）
@@ -71,17 +83,12 @@ class PomodoroSettingsController < ApplicationController
   def edit; end
 
   def update
-    if @pomodoro_setting.id == 1
-      flash.now[:alert] = 'デフォルトのポモドーロは編集できません'
-      render :edit, status: :unprocessable_entity
+    if @pomodoro_setting.update(pomodoro_params)
+      flash[:success] = '更新されました'
+      redirect_to pomodoro_setting_path(@pomodoro_setting)
     else
-      if @pomodoro_setting.update(pomodoro_params)
-        flash[:success] = '更新されました'
-        redirect_to pomodoro_setting_path(@pomodoro_setting)
-      else
-        flash.now[:danger] = '更新に失敗しました'
-        render :edit, status: :unprocessable_entity
-      end
+      flash.now[:danger] = '更新に失敗しました'
+      render :edit, status: :unprocessable_entity
     end
   end
 

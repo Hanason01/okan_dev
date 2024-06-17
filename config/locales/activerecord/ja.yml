@@ -1,0 +1,99 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+      pomodoro_setting: ポモドーロ設定
+      break_reason: 離席理由
+      break_reason_template: 離席理由テンプレート
+      okan_reprimand: お母さんの叱責
+      break_reason_association: 離席理由の関連付け
+
+    attributes:
+      user:
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード確認
+        name: ニックネーム
+      pomodoro_setting:
+        minutes: 時間（分）
+        total_sets: セット数
+        set_title: セッション名
+        breaks: 休憩（分）
+      break_reason:
+        reason: 離席理由
+      break_reason_template:
+        template_name: テンプレート名
+      break_reason_association:
+        break_reason_id: 離席理由ID
+        break_reason_template_id: 離席理由テンプレートID
+      okan_reprimand:
+        body: オカン本文
+
+    errors:
+      messages:
+        record_invalid: "バリデーションに失敗しました: %{errors}"
+        restrict_dependent_destroy:
+          has_many: "%{record}を削除できません。他のレコードが存在します。"
+          has_one: "%{record}を削除できません。他のレコードが存在します。"
+      models:
+        user:
+          attributes:
+            email:
+              blank: "を入力してください"
+              invalid: "の形式が正しくありません"
+              taken: "は既に使用されています"
+            password:
+              too_short: "は3文字以上で入力してください"
+            password_confirmation:
+              confirmation: "が一致しません"
+            name:
+              blank: "を入力してください"
+              too_long: "は10文字以内で入力してください"
+        pomodoro_setting:
+          attributes:
+            minutes:
+              blank: "を入力してください"
+              not_a_number: "は半角の数値で入力してください"
+              less_than_or_equal_to: "は1000以下で入力してください"
+              greater_than_or_equal_to: "は1以上で入力してください"
+            total_sets:
+              blank: "を入力してください"
+              not_a_number: "は半角の数値で入力してください"
+              less_than_or_equal_to: "は100以下で入力してください"
+              greater_than_or_equal_to: "は1以上で入力してください"
+            set_title:
+              blank: "を入力してください"
+              too_long: "は15文字以内で入力してください"
+            breaks:
+              blank: "を入力してください"
+              not_a_number: "は半角の数値で入力してください"
+              less_than_or_equal_to: "は1000以下で入力してください"
+              greater_than_or_equal_to: "は1以上で入力してください"
+          base:
+            pomodoro_limit: "ポモドーロは50個までしか作成できません"
+        break_reason:
+          attributes:
+            reason:
+              blank: "を入力してください"
+              too_long: "は10文字以内で入力してください"
+          base:
+            break_limit: "離席理由は50個までしか作成できません"
+        break_reason_template:
+          attributes:
+            template_name:
+              blank: "を入力してください"
+              too_long: "は15文字以内で入力してください"
+          base:
+            template_limit: "離席理由テンプレートは50個までしか作成できません"
+        okan_reprimand:
+          attributes:
+            body:
+              blank: "を入力してください"
+              too_long: "は20文字以内で入力してください"
+        break_reason_association:
+          attributes:
+            break_reason_id:
+              blank: "離席理由IDを入力してください"
+              taken: "この離席理由は既に関連付けられています"
+            break_reason_template_id:
+              blank: "離席理由テンプレートIDを入力してください"

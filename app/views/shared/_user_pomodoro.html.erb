@@ -55,32 +55,34 @@
 <!-- ポモドーロ詳細（初期状態では非表示） -->
 <% if @selected_pomodoro %>
   <div id="pomodoroDetails" data-pomodoro='<%= @selected_pomodoro.to_json %>'></div>
-  <div class = "pomodoro-timer">
-    <div id="pomodoroStatus"></div>
-    <!-- アラームのオンオフを切り替えるためのボタン -->
-    <div id="alarmControl">
-      <%= image_tag('alarm_on.png', id: 'alarmOn', style: 'cursor: pointer;') %>
-      <%= image_tag('alarm_off.png', id: 'alarmOff', style: 'display: none; cursor: pointer;') %>
-    </div>
-    <div class="pomodoro-title-session">
-      <p id="pomodoroSession"><%= @selected_pomodoro.minutes %>分×<%= @selected_pomodoro.total_sets %>セッション</p>
-      <h2 id="pomodoroTitle"><%= @selected_pomodoro.set_title %></h2>
-      <div class="pomodoro-sets"></div>
-    </div>
-    <div class="timer-body">
-      <div id="timer"><%= @selected_pomodoro.minutes %>:00</div>
-    </div>
-    <div class="timer-button">
-      <button id="startButton">スタート</button>
-      <% if @selected_template %>
-        <div class="reset-buttons-container">
-        <% @selected_template.break_reasons.each do |reason| %>
-          <button class="reset-button"><%= reason.reason %></button>
+  <div class= "timer-wrapper">
+    <div class = "pomodoro-timer">
+      <div id="pomodoroStatus"></div>
+      <!-- アラームのオンオフ切り替えボタン -->
+      <div id="alarmControl">
+        <%= image_tag('alarm_on.png', id: 'alarmOn', style: 'cursor: pointer;') %>
+        <%= image_tag('alarm_off.png', id: 'alarmOff', style: 'display: none; cursor: pointer;') %>
+      </div>
+      <div class="pomodoro-title-session">
+        <p id="pomodoroSession"><%= @selected_pomodoro.minutes %>分×<%= @selected_pomodoro.total_sets %>セッション</p>
+        <h2 id="pomodoroTitle"><%= @selected_pomodoro.set_title %></h2>
+        <div class="pomodoro-sets"></div>
+      </div>
+      <div class="timer-body">
+        <div id="timer"><%= @selected_pomodoro.minutes %>:00</div>
+      </div>
+      <div class="timer-button">
+        <button id="startButton">スタート</button>
+        <% if @selected_template %>
+          <div class="reset-buttons-container">
+          <% @selected_template.break_reasons.each do |reason| %>
+            <button class="reset-button"><%= reason.reason %></button>
+          <% end %>
+          </div>
+        <% else %>
+          <button class="reset-button">離席する</button>
         <% end %>
-        </div>
-      <% else %>
-        <button class="reset-button">離席する</button>
-      <% end %>
+      </div>
     </div>
   </div>
 <% end %>

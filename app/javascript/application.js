@@ -2,6 +2,3 @@
 import "@hotwired/turbo-rails"
 import "easytimer"
 import "global"
-// import "timer"
-// import "template"
-// import "timer_setting"

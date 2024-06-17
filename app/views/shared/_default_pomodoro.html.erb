@@ -8,17 +8,24 @@
     const reprimands = <%= raw @reprimands.to_json %>;
   </script>
 <% end %>
-<div class = "container">
-  <div id = "defaultPomodoros" data-pomodoro = <%= default_pomodoro.to_json(include: :user) %>>
-  <div class = "setting-section">
-    <% if logged_in? %>
-      <div class = 'nothing'>まだあなたのポモドーロタイマーがありません!
-        <div class = 'have-nothing-link'>
-          <%= link_to 'ポモドーロタイマー登録', new_user_pomodoro_setting_path(current_user) %>
-        </div>
+
+<div id = "defaultPomodoros" data-pomodoro = <%= default_pomodoro.to_json(include: :user) %>></div>
+<div class = "setting-section">
+  <% if logged_in? %>
+    <div class = 'nothing'>まだあなたのポモドーロタイマーがありません!
+      <div class = 'have-nothing-link'>
+        <%= link_to 'ポモドーロタイマー登録', new_user_pomodoro_setting_path(current_user) %>
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% else %>
+    <div class = 'nothing'>タイマーを作成するにはログインしてください！
+      <div class = 'have-nothing-link'>
+        <%= link_to 'ログイン', login_path ,class: 'nav-link-no-login', data: { turbo: false } %>
+      </div>
+    </div>
+  <% end %>
+</div>
+<div class= "timer-wrapper">
   <div class = "pomodoro-timer">
     <div id = "pomodoroStatus"></div>
     <div id="alarmControl">
@@ -39,6 +46,7 @@
     </div>
   </div>
 </div>
+
 
 <div id="okan-reprimand-popup" style="display: none;">
   <div class = "popup" >
