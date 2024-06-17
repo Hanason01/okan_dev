@@ -13,6 +13,7 @@
 # Sorceryのユーザー作成方法を利用してユーザーを作成
 user = User.find_or_create_by!(email: 'allferstyle@yahoo.co.jp') do |user|
   user.password = 'composer' # Sorceryが自動的にハッシュ化します
+  user.password_confirmation = 'composer'
   user.name = 'hanamu'
 end
 
