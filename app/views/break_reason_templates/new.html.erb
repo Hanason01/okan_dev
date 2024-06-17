@@ -15,7 +15,9 @@
       </div>
     <% end %>
 
-    <%= form_with model: [@user, @break_reason_template] do |form| %>
+
+
+    <%= form_with model: [@user, @break_reason_template],data: { turbo: false} do |form| %>
       <% if @break_reason_template.errors.any? %>
         <div style="color: red">
           <ul>

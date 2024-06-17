@@ -6,7 +6,7 @@
   <div class="template-create-form">
     <h1>テンプレート編集</h1>
 
-    <%= form_with model: [@break_reason_template], url: break_reason_template_path(@break_reason_template), method: :patch do |form| %>
+    <%= form_with model: [@break_reason_template], url: break_reason_template_path(@break_reason_template), method: :patch,data: { turbo: false} do |form| %>
       <% if @break_reason_template.errors.any? %>
         <div style="color: red">
           <ul>

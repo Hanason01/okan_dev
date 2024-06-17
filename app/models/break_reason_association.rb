@@ -2,8 +2,13 @@ class BreakReasonAssociation < ApplicationRecord
   belongs_to :break_reason
   belongs_to :break_reason_template
 
-  # validates :break_reason_template_id, presence: true
-  # validates :break_reason_id, presence: true
-  # validates :break_reason_id, uniqueness: { scope: :break_reason_template_id }
+  after_destroy :check_and_destroy_template
 
+  private
+
+  def check_and_destroy_template
+    if break_reason_template.break_reasons.empty?
+      break_reason_template.destroy
+    end
+  end
 end
