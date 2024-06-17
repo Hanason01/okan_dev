@@ -61,6 +61,21 @@
     }
   }
 
+
+  .create-user-link{
+    display: inline-block;
+    margin:0rem;
+    background-color: rgb(84, 189, 213);
+    color: white;
+    border: none;
+    border-radius: 0.6rem;
+    font-size: 1.2rem;
+
+    &:hover{
+      background-color: rgb(14, 170, 206);
+    }
+  }
+
   a{
     display: inline-block;
     background-color: rgb(84, 189, 213);
