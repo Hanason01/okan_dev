@@ -15,8 +15,11 @@ RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
 && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
 && apt-get update -qq \
 && apt-get install -y build-essential nodejs yarn
+
 RUN mkdir /app
 WORKDIR /app
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
 RUN gem install bundler
 COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
@@ -25,5 +28,6 @@ COPY yarn.lock /app/yarn.lock
 RUN bundle install
 RUN yarn install
 COPY . /app
+ENTRYPOINT ["entrypoint.sh"]
 RUN bundle exec rake assets:precompile
 CMD ["bash", "-c", "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0' -p ${PORT}"]
