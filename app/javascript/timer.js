@@ -16,6 +16,9 @@ const alarmSound = new Audio(alarmSoundPath);
 const sessionEndSound = new Audio(sessionEndSoundPath);
 const okanReprimands = new Audio(okanReprimandsPath);
 
+// IOS対策
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
 
 document.addEventListener('turbo:load', function() {
   console.log("turbo:loadが読まれました");
@@ -69,7 +72,13 @@ document.addEventListener('turbo:load', function() {
       timerRunning = false;
       if (alarmEnabled) {
         console.log("オカンアラーム発音");
-        okanReprimands.play();
+        okanReprimands.play().catch(error => {
+          console.error('Error playing okan reprimands sound:', error);
+          // iOSの場合、AudioContextのresumeが必要なことがあります
+          audioContext.resume().then(() => {
+            okanReprimands.play();
+          });
+        });
       }
       const popup = document.getElementById('okan-reprimand-popup');
       popup.style.display = 'block';
@@ -120,13 +129,25 @@ function handleTimerEnd() {
     if (setCount % 2 === 0) {
         if (alarmEnabled) {
           console.log("アラーム発音");
-          alarmSound.play();
+          alarmSound.play().catch(error => {
+            console.error('Error playing alarm sound:', error);
+            // iOSの場合、AudioContextのresume
+            audioContext.resume().then(() => {
+              alarmSound.play();
+            });
+          });
         }
         startBreak();
     } else {
         if (alarmEnabled) {
           console.log("アラーム発音");
-          alarmSound.play();
+          alarmSound.play().catch(error => {
+            console.error('Error playing alarm sound:', error);
+            // iOSの場合、AudioContextのresumeが必要なことがあります
+            audioContext.resume().then(() => {
+              alarmSound.play();
+            });
+          });
         }
         console.log(setCount);
         updatePomodoroSets(setCount - 1);
@@ -153,7 +174,13 @@ function updateTimer(){
 function sessionFinished(){
     if (alarmEnabled) {
       console.log("終了アラーム発音");
-      sessionEndSound.play();
+      sessionEndSound.play().catch(error => {
+        console.error('Error playing session end sound:', error);
+        // iOSの場合、AudioContextのresumeが必要なことがあります
+        audioContext.resume().then(() => {
+          sessionEndSound.play();
+        });
+      });
     }
     alert("セッション終了");
     initPomodoroSets(totalSets);
